@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Sheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .university-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .exam-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
+            font-size: 11px;
+        }
+
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .attendance-table th,
+        .attendance-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .attendance-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .sn-col {
+            width: 50px;
+            text-align: center;
+        }
+
+        .enrollment-col {
+            width: 150px;
+        }
+
+        .name-col {
+            width: 200px;
+        }
+
+        .answer-col {
+            width: 100px;
+            text-align: center;
+        }
+
+        .signature-col {
+            width: 120px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            border-top: 1px solid #000;
+            padding-top: 15px;
+        }
+
+        .footer-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .signatures-section {
+            margin-top: 30px;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #000;
+            width: 150px;
+            margin: 15px 0 5px 0;
+            display: inline-block;
+        }
+
+        .note {
+            font-size: 10px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+            }
+
+            .attendance-table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="university-name">{{university.name}}</div>
+        <div class="subtitle">DAILY ATTENDANCE RECORD</div>
+        <div class="subtitle">Room No. {{room.number}}</div>
+    </div>
+
+    <div class="exam-info">
+        <div>
+            <strong>Program:</strong> {{exam.programs}}<br>
+            <strong>Course Name:</strong> {{exam.title}}<br>
+            <strong>Semester:</strong> {{exam.semester}}
+        </div>
+        <div>
+            <strong>Course Code:</strong> {{exam.courseCode}}<br>
+            <strong>Date:</strong> {{exam.date}}<br>
+            <strong>Time:</strong> {{exam.time.start}} - {{exam.time.end}}
+        </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <strong>Regular / EX:</strong> ________________
+    </div>
+
+    <table class="attendance-table">
+        <thead>
+            <tr>
+                <th class="sn-col">S.N</th>
+                <th class="enrollment-col">Enrollment No.</th>
+                <th class="name-col">Name of Examinee</th>
+                <th class="answer-col">Main Ans. Booklet No.</th>
+                <th class="answer-col">Suppl. AB No.<br>(If Used for<br>Long Ans.)</th>
+                <th class="signature-col">Sign of<br>Candidate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each students}}
+            <tr>
+                <td class="sn-col">{{@index}}</td>
+                <td class="enrollment-col">{{this.enrollmentNo}}</td>
+                <td class="name-col">{{this.name}}</td>
+                <td class="answer-col"></td>
+                <td class="answer-col"></td>
+                <td class="signature-col"></td>
+            </tr>
+            {{/each}}
+
+            {{!-- Add empty rows to fill the page --}}
+            {{#repeat 20}}
+            <tr>
+                <td class="sn-col"></td>
+                <td class="enrollment-col"></td>
+                <td class="name-col"></td>
+                <td class="answer-col"></td>
+                <td class="answer-col"></td>
+                <td class="signature-col"></td>
+            </tr>
+            {{/repeat}}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <div class="footer-stats">
+            <div><strong>Total: {{students.length}}</strong></div>
+            <div><strong>Present:</strong> ________</div>
+            <div><strong>Absent:</strong> ________</div>
+        </div>
+
+        <div class="note">
+            (If candidate absent then written "ABSENT" red colour pen)
+        </div>
+
+        <div class="signatures-section">
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <div>Name & Sign. of Invigilator with date</div>
+                    <div style="margin-top: 10px;">
+                        1. <div class="signature-line"></div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        2. <div class="signature-line"></div>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="signature-line"></div>
+                    <div><strong>Sign. of Center Supdt. with Date</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <strong>Page 1</strong>
+        </div>
+    </div>
+</body>
+
+</html>

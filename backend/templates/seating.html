@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seating Arrangement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        
+        .university-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .exam-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .room-info {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .time-date {
+            font-size: 12px;
+        }
+        
+        .seating-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .seating-grid th {
+            background-color: #f0f0f0;
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .seating-grid td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+            vertical-align: middle;
+            height: 40px;
+            font-size: 10px;
+        }
+        
+        .student-cell {
+            background-color: #fff;
+        }
+        
+        .empty-cell {
+            background-color: #f9f9f9;
+        }
+        
+        .double-student {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            border-top: 1px solid #000;
+            padding-top: 15px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .exam-info {
+            text-align: left;
+        }
+        
+        .signatures {
+            text-align: right;
+        }
+        
+        .signature-line {
+            border-bottom: 1px solid #000;
+            width: 200px;
+            margin: 20px 0 5px 0;
+            display: inline-block;
+        }
+        
+        @media print {
+            body { margin: 0; }
+            .seating-grid { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="university-name">{{university.name}}</div>
+        <div class="exam-details">
+            <div class="room-info">Room No - {{room.number}}</div>
+            <div class="time-date">
+                Time: {{exam.time.start}} - {{exam.time.end}}<br>
+                Date: {{exam.date}}
+            </div>
+        </div>
+    </div>
+
+    <table class="seating-grid">
+        <thead>
+            <tr>
+                <th style="width: 80px;">ROW</th>
+                {{#each grid.0}}
+                <th>COLUMN {{@index}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each grid}}
+            <tr>
+                <th>ROW-{{romanNumeral @index}}</th>
+                {{#each this}}
+                <td class="{{#if this}}student-cell{{else}}empty-cell{{/if}}">
+                    {{#if this}}
+                        {{#if this.length}}
+                            <div class="double-student">
+                                {{#each this}}
+                                <span>{{this.enrollmentNo}}</span>
+                                {{/each}}
+                            </div>
+                        {{else}}
+                            {{this.enrollmentNo}}
+                        {{/if}}
+                    {{/if}}
+                </td>
+                {{/each}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="exam-info">
+                <strong>Program/Branch:</strong> {{exam.programs}} - {{exam.branches}}<br>
+                <strong>Semester:</strong> {{exam.semester}} &nbsp;&nbsp; <strong>Status:</strong> Regular<br>
+                <strong>No. of Candidates:</strong> {{students.length}}
+                <div style="margin-top: 10px;">
+                    <strong>PRESENT:</strong> __________ &nbsp;&nbsp;&nbsp;&nbsp; <strong>ABSENT:</strong> __________ &nbsp;&nbsp;&nbsp;&nbsp; <strong>Total:</strong> {{students.length}}
+                </div>
+            </div>
+            <div class="signatures">
+                <div>
+                    <div class="signature-line"></div>
+                    <div><strong>DESIGN.</strong></div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div class="signature-line"></div>
+                    <div><strong>BRANCH</strong></div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div class="signature-line"></div>
+                    <div><strong>SIGNATURE WITH DATE</strong></div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right; margin-top: 20px;">
+            <strong>Page 1</strong>
+        </div>
+    </div>
+</body>
+</html>
